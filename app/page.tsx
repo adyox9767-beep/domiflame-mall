@@ -1,65 +1,144 @@
 import Image from "next/image";
+import Link from "next/link";
+import {
+  FiSearch,
+  FiUser,
+  FiShoppingCart,
+  FiShield,
+  FiTruck,
+  FiRefreshCw,
+  FiHeadphones,
+  FiMonitor,
+  FiGift,
+  FiTag,
+} from "react-icons/fi";
+import { PiTShirt, PiArmchair, PiHandbag, PiSneaker } from "react-icons/pi";
+import { GiLipstick } from "react-icons/gi";
+
+const categories = [
+  { name: "FASHION", icon: PiTShirt },
+  { name: "ELECTRONICS", icon: FiMonitor },
+  { name: "BEAUTY", icon: GiLipstick },
+  { name: "HOME", icon: PiArmchair },
+  { name: "ACCESSORIES", icon: PiHandbag },
+  { name: "LIFESTYLE", icon: PiSneaker },
+  { name: "GIFTS", icon: FiGift },
+  { name: "DEALS", icon: FiTag },
+];
+
+const features = [
+  { title: "Trusted", text: "Quality You Can Rely On", icon: FiShield },
+  { title: "Fast Delivery", text: "Quick. Reliable. Every Time.", icon: FiTruck },
+  { title: "Premium", text: "Top Brands. Great Value.", icon: FiShield },
+];
+
+const bottomFeatures = [
+  { title: "100% Authentic", text: "Genuine Products", icon: FiShield },
+  { title: "Secure Payments", text: "Shop With Confidence", icon: FiShield },
+  { title: "Easy Returns", text: "Hassle-Free Returns", icon: FiRefreshCw },
+  { title: "24/7 Support", text: "We're Here to Help", icon: FiHeadphones },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen overflow-hidden bg-white text-[#111]">
+      <header className="flex h-[96px] items-center justify-between px-8 lg:px-16">
+        <Image src="/logo.png" alt="DOMIFLAME.MALL" width={300} height={95} priority />
+
+        <nav className="hidden items-center gap-10 text-[15px] font-semibold lg:flex">
+  <Link
+    href="/"
+    className="border-b-2 border-[#ffb300] pb-2 text-[#ffb300]"
+  >
+    Home
+  </Link>
+
+  <Link href="/categories">Categories</Link>
+
+  <span>Deals</span>
+  <span>New Arrivals</span>
+  <span>Track Order</span>
+  <span>Help</span>
+</nav>
+
+        <div className="flex items-center gap-7 text-3xl">
+          <FiSearch />
+          <FiUser />
+          <div className="relative">
+            <FiShoppingCart />
+            <span className="absolute -right-3 -top-3 grid h-6 w-6 place-items-center rounded-full bg-[#ffb300] text-xs font-black">
+              3
+            </span>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      <section className="relative px-8 pb-10 pt-10 lg:px-16 lg:pt-16">
+
+        <div className="relative z-10 grid min-h-[610px] items-center lg:grid-cols-2">
+        <div className="max-w-[760px]">
+              <h1 className="text-[72px] font-black leading-[0.94] tracking-[-4px] lg:text-[96px]">
+              Shop Smart.
+              <br />
+              <span className="text-[#ffb300]">Live Better.</span>
+            </h1>
+
+            <div className="mt-8 h-[6px] w-20 rounded-full bg-[#ffb300]" />
+
+            <p className="mt-8 text-[26px] leading-snug">
+              Trusted products. Fast delivery.
+              <br />
+              Premium shopping, every time.
+            </p>
+
+            <div className="mt-10 grid max-w-2xl grid-cols-3 gap-7">
+              {features.map(({ title, text, icon: Icon }) => (
+                <div key={title} className="flex items-start gap-3">
+                  <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[#fff5db] text-2xl text-[#ffb300]">
+                    <Icon />
+                  </div>
+                  <div>
+                    <h3 className="font-black">{title}</h3>
+                    <p className="text-sm text-[#555]">{text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button className="mt-12 flex items-center gap-4 rounded-xl bg-[#ffb300] px-9 py-5 text-2xl font-black shadow-xl shadow-yellow-100">
+              <FiShoppingCart /> Shop Now
+            </button>
+          </div>
+
+<div className="hidden items-center justify-center lg:flex">
+  <div className="rounded-[36px] border border-[#f1f1f1] bg-[#fafafa] px-16 py-20 text-center shadow-sm">
+    <Image
+      src="/logo.png"
+      alt="DOMIFLAME.MALL"
+      width={360}
+      height={130}
+      className="mx-auto opacity-80"
+    />
+    <p className="mt-6 text-xl font-semibold text-[#777]">
+      Premium Banner Coming Soon
+    </p>
+  </div>
+</div>
+
         </div>
-      </main>
-    </div>
+
+        <div className="relative z-20 mx-auto mt-0 grid max-w-[1500px] grid-cols-2 gap-5 rounded-full bg-white px-10 py-6 shadow-2xl lg:grid-cols-4">
+          {bottomFeatures.map(({ title, text, icon: Icon }) => (
+            <div key={title} className="flex items-center gap-4 border-r border-gray-300 last:border-r-0">
+              <Icon className="text-4xl" />
+              <div>
+                <h4 className="font-black">{title}</h4>
+                <p className="text-sm text-[#666]">{text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>      
+    </main>
   );
 }
