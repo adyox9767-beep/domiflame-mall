@@ -6,6 +6,7 @@ import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FiPlus, FiPackage, FiImage, FiEdit3 } from "react-icons/fi";
+import { uploadToSupabase } from "@/lib/uploadToSupabase";
 
 export default function AdminProductsPage() {
   const [name, setName] = useState("");
@@ -16,10 +17,12 @@ const [oldPrice, setOldPrice] = useState("");
 const [stock, setStock] = useState("");
 const [description, setDescription] = useState("");
 const [loading, setLoading] = useState(false);
+const [imageUrl, setImageUrl] = useState("");
+const [uploading, setUploading] = useState(false);
   return (
     <main className="min-h-screen bg-[#f7f7f7] text-[#111]">
       <AdminRoute>
-        <Navbar active="home" cartCount={0} />
+        <Navbar active="admin" />
 
         <section className="px-5 py-10 lg:px-16">
           <div className="mx-auto max-w-[1200px]">
@@ -29,7 +32,7 @@ const [loading, setLoading] = useState(false);
                 Product <span className="text-[#ffb300]">Management</span>
               </h1>
               <p className="mt-3 text-gray-300">
-                Add, edit and manage marketplace products.
+                Add, edit and manage DOMIFLAME.MALL products.
               </p>
             </div>
 
@@ -104,17 +107,53 @@ const [loading, setLoading] = useState(false);
                 />
 
                 <div className="mt-5 rounded-2xl border border-dashed border-[#ddd] p-8 text-center">
-                  <FiImage className="mx-auto text-5xl text-[#ffb300]" />
-                  <p className="mt-3 font-black">Product Image Upload</p>
-                  <p className="text-sm text-[#666]">
-                    Supabase image upload will be connected next.
-                  </p>
-                </div>
+  <FiImage className="mx-auto text-5xl text-[#ffb300]" />
+
+  <p className="mt-3 font-black">Product Image Upload</p>
+
+  <input
+    type="file"
+    accept="image/*"
+    className="mt-5"
+    onChange={async (e) => {
+      try {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+
+        const url = await uploadToSupabase(file);
+        setImageUrl(url);
+
+        alert("Image uploaded successfully!");
+      } catch (error: any) {
+        alert(error.message);
+      } finally {
+        setUploading(false);
+      }
+    }}
+  />
+
+  {uploading && (
+    <p className="mt-3 font-bold text-[#ffb300]">Uploading image...</p>
+  )}
+
+  {imageUrl && (
+    <p className="mt-3 text-sm font-bold text-green-600">
+      Image uploaded successfully ✅
+    </p>
+  )}
+</div>
 
                 <button
   onClick={async () => {
     try {
       setLoading(true);
+
+      if (!imageUrl) {
+  alert("Please upload product image first");
+  return;
+}
 
       await addDoc(collection(db, "products"), {
         name,
@@ -124,7 +163,7 @@ const [loading, setLoading] = useState(false);
         oldPrice: Number(oldPrice),
         stock: Number(stock),
         description,
-        imageUrl: "",
+        imageUrl,
         status: "active",
         createdAt: serverTimestamp(),
       });

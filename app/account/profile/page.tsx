@@ -4,7 +4,7 @@ import { FiUser, FiMail, FiPhone, FiEdit3 } from "react-icons/fi";
 export default function ProfilePage() {
   return (
     <main className="min-h-screen bg-[#f7f7f7] text-[#111]">
-      <Navbar active="home" cartCount={0} />
+      <Navbar active="home" />
 
       <section className="px-5 py-10 lg:px-16">
         <div className="mx-auto max-w-[900px] rounded-[32px] bg-white p-8 shadow-[0_18px_60px_rgba(0,0,0,0.08)]">

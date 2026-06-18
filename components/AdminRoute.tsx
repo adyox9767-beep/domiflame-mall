@@ -3,8 +3,7 @@
 import { ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
-
-const adminEmails = ["sasuke.work01@gmail.com"];
+import { isAdminEmail } from "@/lib/admin";
 
 export default function AdminRoute({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
@@ -18,8 +17,8 @@ export default function AdminRoute({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (!adminEmails.includes(user.email || "")) {
-      router.push("/account");
+    if (!isAdminEmail(user.email)) {
+      router.push("/");
     }
   }, [user, loading, router]);
 
@@ -34,7 +33,7 @@ export default function AdminRoute({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!user || !adminEmails.includes(user.email || "")) {
+  if (!user || !isAdminEmail(user.email)) {
     return null;
   }
 

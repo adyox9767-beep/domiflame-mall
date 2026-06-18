@@ -1,8 +1,7 @@
+import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  FiSearch,
-  FiUser,
   FiShoppingCart,
   FiShield,
   FiTruck,
@@ -42,36 +41,7 @@ const bottomFeatures = [
 export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-white text-[#111]">
-      <header className="flex h-[96px] items-center justify-between px-8 lg:px-16">
-        <Image src="/logo.png" alt="DOMIFLAME.MALL" width={300} height={95} priority />
-
-        <nav className="hidden items-center gap-10 text-[15px] font-semibold lg:flex">
-  <Link
-    href="/"
-    className="border-b-2 border-[#ffb300] pb-2 text-[#ffb300]"
-  >
-    Home
-  </Link>
-
-  <Link href="/categories">Categories</Link>
-
-  <span>Deals</span>
-  <span>New Arrivals</span>
-  <span>Track Order</span>
-  <span>Help</span>
-</nav>
-
-        <div className="flex items-center gap-7 text-3xl">
-          <FiSearch />
-          <FiUser />
-          <div className="relative">
-            <FiShoppingCart />
-            <span className="absolute -right-3 -top-3 grid h-6 w-6 place-items-center rounded-full bg-[#ffb300] text-xs font-black">
-              3
-            </span>
-          </div>
-        </div>
-      </header>
+      <Navbar active="home" />
 
       <section className="relative px-8 pb-10 pt-10 lg:px-16 lg:pt-16">
 
@@ -105,9 +75,12 @@ export default function Home() {
               ))}
             </div>
 
-            <button className="mt-12 flex items-center gap-4 rounded-xl bg-[#ffb300] px-9 py-5 text-2xl font-black shadow-xl shadow-yellow-100">
-              <FiShoppingCart /> Shop Now
-            </button>
+            <Link
+  href="/categories"
+  className="mt-12 flex w-fit items-center gap-4 rounded-xl bg-[#ffb300] px-9 py-5 text-2xl font-black shadow-xl shadow-yellow-100"
+>
+  <FiShoppingCart /> Shop Now
+</Link>
           </div>
 
 <div className="hidden items-center justify-center lg:flex">

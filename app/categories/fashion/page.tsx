@@ -1,11 +1,9 @@
 "use client";
 
+import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  FiSearch,
-  FiUser,
-  FiShoppingCart,
   FiHeart,
   FiStar,
   FiSliders,
@@ -57,28 +55,7 @@ useEffect(() => {
 }, []);
   return (
     <main className="min-h-screen bg-white text-[#111]">
-      <header className="flex h-[96px] items-center justify-between border-b border-[#eee] px-8 lg:px-16">
-        <Link href="/">
-          <Image src="/logo.png" alt="DOMIFLAME.MALL" width={260} height={85} priority />
-        </Link>
-
-        <nav className="hidden items-center gap-10 text-[15px] font-semibold lg:flex">
-          <Link href="/">Home</Link>
-          <Link href="/categories" className="border-b-2 border-[#ffb300] pb-2 text-[#ffb300]">
-            Categories
-          </Link>
-          <span>Deals</span>
-          <span>New Arrivals</span>
-          <span>Track Order</span>
-          <span>Help</span>
-        </nav>
-
-        <div className="flex items-center gap-7 text-3xl">
-          <FiSearch />
-          <FiUser />
-          <FiShoppingCart />
-        </div>
-      </header>
+      <Navbar active="categories" />
 
       <section className="px-8 py-10 lg:px-16">
         <div className="rounded-[32px] bg-[#111] px-10 py-12 text-white">
@@ -153,8 +130,18 @@ useEffect(() => {
   SALE
 </span>
                     <FiHeart className="absolute right-4 top-4 text-2xl" />
-                    <span className="text-lg font-bold text-[#aaa]">Image Soon</span>
-                  </div>
+{item.imageUrl ? (
+  <Image
+    src={item.imageUrl}
+    alt={item.name}
+    width={300}
+    height={300}
+    className="h-full w-full object-contain p-4"
+  />
+) : (
+  <span className="text-lg font-bold text-[#aaa]">Image Soon</span>
+)}             
+</div>
 
                   <h3 className="mt-4 text-xl font-black">{item.name}</h3>
 

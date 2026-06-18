@@ -16,7 +16,7 @@ const [password, setPassword] = useState("");
 const [loading, setLoading] = useState(false);
   return (
     <main className="min-h-screen bg-[#f7f7f7] text-[#111]">
-      <Navbar active="home" cartCount={0} />
+      <Navbar active="home" />
 
       <section className="flex min-h-[calc(100vh-96px)] items-center justify-center px-5 py-10">
         <div className="grid w-full max-w-[1100px] overflow-hidden rounded-[36px] bg-white shadow-[0_18px_60px_rgba(0,0,0,0.08)] lg:grid-cols-2">

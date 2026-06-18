@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import {
   FiMapPin,
@@ -5,11 +7,34 @@ import {
   FiTruck,
   FiShield,
 } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { getCartItems, clearCart, CartItem } from "@/lib/cart";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import useAuth from "@/hooks/useAuth";
 
 export default function CheckoutPage() {
+  const router = useRouter();
+  const { user } = useAuth();
+
+const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+useEffect(() => {
+  setCartItems(getCartItems());
+}, []);
+
+const subtotal = cartItems.reduce(
+  (total, item) => total + item.price * item.quantity,
+  0
+);
+
+const delivery = 0;
+const discount = 0;
+const total = subtotal + delivery - discount;
   return (
     <main className="min-h-screen bg-[#f7f7f7] text-[#111]">
-      <Navbar active="home" cartCount={2} />
+      <Navbar active="home" />
 
       <section className="px-5 py-10 lg:px-16">
         <div className="mx-auto max-w-[1300px]">
@@ -21,6 +46,7 @@ export default function CheckoutPage() {
             <p className="mt-3 text-gray-300">
               Complete your purchase safely and securely.
             </p>
+          </div>
           </div>
 
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_420px]">
@@ -93,7 +119,7 @@ export default function CheckoutPage() {
               <div className="mt-6 space-y-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-black">₹1,999</span>
+<span className="font-black">₹{subtotal}</span>
                 </div>
 
                 <div className="flex justify-between">
@@ -102,23 +128,52 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="flex justify-between">
-                  <span>Discount</span>
-                  <span className="font-black text-[#ffb300]">-₹500</span>
-                </div>
+                  <span className="font-black text-[#ffb300]">
+  ₹{discount}
+</span>
 
                 <div className="border-t pt-4">
                   <div className="flex justify-between text-2xl">
                     <span className="font-black">Total</span>
                     <span className="font-black text-[#ffb300]">
-                      ₹1,499
-                    </span>
+  ₹{total}
+</span>
                   </div>
                 </div>
               </div>
 
-              <button className="mt-8 w-full rounded-2xl bg-[#ffb300] py-4 text-lg font-black transition hover:bg-[#111] hover:text-white">
-                Place Order
-              </button>
+              <button
+  onClick={async () => {
+  try {
+    if (!user) {
+      alert("Please login first");
+      return;
+    }
+
+    const orderId = `DFM-${Date.now()}`;
+
+    await addDoc(collection(db, "orders"), {
+      orderId,
+      userId: user.uid,
+      userEmail: user.email,
+      items: cartItems,
+      subtotal,
+      total,
+      status: "placed",
+      createdAt: serverTimestamp(),
+    });
+
+    clearCart();
+
+    router.push(`/order-success?orderId=${orderId}`);
+  } catch (error: any) {
+    alert(error.message);
+  }
+}}
+  className="mt-8 w-full rounded-2xl bg-[#ffb300] py-4 text-lg font-black transition hover:bg-[#111] hover:text-white"
+>
+  Place Order
+</button>
 
               <div className="mt-8 space-y-4 border-t pt-6">
                 <div className="flex items-center gap-3">
